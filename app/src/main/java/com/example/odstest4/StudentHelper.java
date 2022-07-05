@@ -12,7 +12,7 @@ public class StudentHelper extends SQLiteOpenHelper {
     Context context;
 
     public StudentHelper(@Nullable Context context) {
-        super(context, "ODSDATABASE.db", null, 1);
+        super(context, "ODSDATABASE.db", null, 2);
         this.context=context;
     }
 
@@ -25,7 +25,13 @@ public class StudentHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+
+        if(i<i1)
+        {
+            db.execSQL("ALTER TABLE ODSTable ADD Mobile TEXT");
+            db.execSQL("ALTER TABLE ODSTable ADD Address TEXT");
+        }
 
     }
 

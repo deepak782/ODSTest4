@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ODSTest4">
         <activity
+            android:name=".SqlLiteActivity"
+            android:exported="false" />
+        <activity
             android:name=".TestActivity"
             android:exported="false" />
         <activity
@@ -48,7 +51,7 @@
             android:name=".MainActivity2"
             android:exported="false" />
         <activity
-            android:name=".SqlLiteActivity"
+            android:name=".TaskActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,12 +2,17 @@ package com.example.odstest4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class SqlLiteActivity extends AppCompatActivity {
 
@@ -19,6 +24,12 @@ public class SqlLiteActivity extends AppCompatActivity {
     String nameStr,mailStr;
     int value;
 
+    ListView SqlListView;
+    Cursor cursor;
+
+    ArrayList<String> stringArrayList=new ArrayList<>();
+    ArrayAdapter<String> arrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +38,13 @@ public class SqlLiteActivity extends AppCompatActivity {
         mail=findViewById(R.id.mail);
         id=findViewById(R.id.sid);
         setmail=findViewById(R.id.setmail);
+        SqlListView=findViewById(R.id.SQlList);
 
         studentHelper=new StudentHelper(this);
         db=studentHelper.getReadableDatabase();
+
+        arrayAdapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,stringArrayList);
+        SqlListView.setAdapter(arrayAdapter);
 
     }
 
@@ -70,6 +85,28 @@ public class SqlLiteActivity extends AppCompatActivity {
     }
 
     public void read(View view) {
+
+        stringArrayList.clear();
+        String[] Col={"Sno","Name","Mail"};
+        cursor=db.query("ODSTable",Col,null,null,null,null,null);
+
+        if(cursor.getCount()>0 &&cursor!=null)
+        {
+            while (cursor.moveToNext())
+            {
+                String name=cursor.getString(1);
+                String mail=cursor.getString(2);
+
+                stringArrayList.add(""+name+"\n"+mail);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+        }
+        else
+        {
+            Toast.makeText(this, "No Record Found", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void insert(View view) {
