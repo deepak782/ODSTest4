@@ -22,9 +22,12 @@ public class TaskActivity extends AppCompatActivity {
     CountryModel countryModel;
     CountryAdapter countryAdapter;
     List<CountryModel> countryModelList=new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
-    String[] indiaarray={"Ap","Ts","Mp","Tn"};
-    String[] pakistanarray={"tt1","tt2","tt3","tt4"};
+
+    StateModel stateModelIndia,stateModelchina;
+    StateAdapter stateAdapter;
+    List<StateModel> stateModelList=new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,36 +40,31 @@ public class TaskActivity extends AppCompatActivity {
         countryAdapter=new CountryAdapter(this,countryModelList);
         countrySpinner.setAdapter(countryAdapter);
 
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Toast.makeText(TaskActivity.this, ""+stateModelList.get(i).getStatecm()+"\n"+
+                        stateModelList.get(i).getStatename(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         loadCountries();
-
-
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                /*if(countryModelList.get(i).getName().equals("India"));
-                {
-                    arrayAdapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1,indiaarray);
-                    gridView.setAdapter(arrayAdapter);
-                }
-                if(countryModelList.get(i).getName().equals("Pakistan"));
-                {
-                    arrayAdapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1,pakistanarray);
-                    gridView.setAdapter(arrayAdapter);
-                }*/
 
                 Toast.makeText(TaskActivity.this, ""+countryModelList.get(i).getName(), Toast.LENGTH_SHORT).show();
 
 
                 if(countryModelList.get(i).getName()=="India")
                 {
-                    arrayAdapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1,indiaarray);
-                    gridView.setAdapter(arrayAdapter);
+                    indiaStates();
                 }
-                else if(countryModelList.get(i).getName()=="Pakistan")
+                else if(countryModelList.get(i).getName()=="China")
                 {
-                    arrayAdapter=new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1,pakistanarray);
-                    gridView.setAdapter(arrayAdapter);
+                    chinaStates();
                 }
 
 
@@ -79,11 +77,47 @@ public class TaskActivity extends AppCompatActivity {
         });
     }
 
+    private void chinaStates() {
+
+        stateModelList.clear();
+
+        stateModelchina=new StateModel("CHINA STATE 1","CHINA CM1",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelchina);
+        stateModelchina=new StateModel("CHINA STATE 2","CHINA CM2",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelchina);
+        stateModelchina=new StateModel("CHINA STATE 3","CHINA CM3",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelchina);
+        stateModelchina=new StateModel("CHINA STATE 4","CHINA CM4",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelchina);
+        stateModelchina=new StateModel("CHINA STATE 5","CHINA CM5",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelchina);
+
+        stateAdapter=new StateAdapter(getApplicationContext(),stateModelList);
+        gridView.setAdapter(stateAdapter);
+    }
+
+    private void indiaStates() {
+        stateModelList.clear();
+        stateModelIndia=new StateModel("INDIA STATE 1","CM1",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelIndia);
+        stateModelIndia=new StateModel("INDIA STATE 2","CM2",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelIndia);
+        stateModelIndia=new StateModel("INDIA STATE 3","CM3",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelIndia);
+        stateModelIndia=new StateModel("INDIA STATE 4","CM4",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelIndia);
+        stateModelIndia=new StateModel("INDIA STATE 5","CM5",R.drawable.ic_baseline_announcement_24);
+        stateModelList.add(stateModelIndia);
+
+        stateAdapter=new StateAdapter(getApplicationContext(),stateModelList);
+        gridView.setAdapter(stateAdapter);
+    }
+
     private void loadCountries() {
 
         countryModel=new CountryModel(R.drawable.ic_baseline_announcement_24,"India");
         countryModelList.add(countryModel);
-        countryModel=new CountryModel(R.drawable.ic_launcher_background,"Pakistan");
+        countryModel=new CountryModel(R.drawable.ic_launcher_background,"China");
         countryModelList.add(countryModel);
 
         countryAdapter.notifyDataSetChanged();
